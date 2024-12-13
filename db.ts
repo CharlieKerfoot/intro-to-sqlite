@@ -78,15 +78,12 @@ export const createUser = (request: Request, response: Response): void => {
 	});
 };
 
-const checkUser = (id: number): object | null => {
+const checkUser = async (id: number): Promise<object | null> => {
 	const query: string = `SELECT * FROM user WHERE id = ?`;
 	return new Promise((resolve, reject) => {
-		db.get(query, [id], (error, result): void => {
-			if (error) {
-				reject(error);
-			} else {
-				resolve(result || null);
-			}
+		db.get(query, [id], (error, result) => {
+			if (error) return reject(error);
+			resolve(result || null);
 		});
 	});
 };
@@ -101,7 +98,7 @@ export const updateUser = async (request: Request, response: Response): Promise<
 	try {
 		const user = await checkUser(id);
 		if (!user) {
-			response.status(404).json({ error: 'User Does Not Exist' });
+			response.status(404).json({ error: 'User Not Found' });
 			return;
 		}
 
@@ -118,14 +115,12 @@ export const updateUser = async (request: Request, response: Response): Promise<
 
 export const deleteUser = async (request: Request, response: Response): Promise<void> => {
 	const query: string = 'DELETE FROM user WHERE id = ?';
-	if (!request.params.id)
-		response.status(400).json({ error: 'Incorrect Parameters' });
 	const id: number = parseInt(request.params.id);
 
 	try {
 		const user = await checkUser(id);
 		if (!user) {
-			response.status(404).json({ error: 'User Does Not Exist' });
+			response.status(404).json({ error: 'User Not Found' });
 			return;
 		}
 

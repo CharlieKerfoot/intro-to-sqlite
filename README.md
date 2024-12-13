@@ -1,19 +1,61 @@
-# Intro to SQLite
-This repo provides a very basic template for using `sqlite` with `express`. 
+# API Endpoints
 
-## Assignment
-Write the rest of the missing endpoints in `index.ts` to create a simple backend for a CRUD app.  This will require you to write code in `db.ts` as well!
+## 1. Get user by ID
 
-The [documentation for sqlite3](https://github.com/mapbox/node-sqlite3/wiki/API) will be very helpful.
+- **Endpoint**: `/user/:id`
+- **Method**: GET
+- **Description**: Retrieves a user by their ID.
+- **Response**:
+    - 200: `{ "id": 1, "name": "foo" }`
+    - 404: `User not found`
 
-Make sure that you return the correct HTTP status code as well.
+## 2. Get all users
 
-### index.js
-Most of this file should look familiar. Look at past assignments to review what each section of this file does.
+- **Endpoint**: `/all-users`
+- **Method**: GET
+- **Description**: Retrieves all users.
+- **Response**:
+    - 200: `[{ "id": 1, "name": "foo" }, ...]`
+    - 404: Invalid input
 
-You can ignore the middleware code -- at a very basic level, this code allows us to test our front end later on in this course.
+## 3. Create user
 
-### db.js
-The database `foo.db` contains one table named `user`.
+- **Endpoint**: `/user/:id`
+- **Method**: POST
+- **Description**: Creates a new user.
+- **Request Body**:
+  ```json
+  {
+    "name": "foo"
+  }
+- **Response**:
+    - 201: `{ message: User Successfully Created }`
+    - 400: `Incorrect Parameters`
+    - 404: `User not found`
 
-Use DB Browser to explore this database before you write any code!
+## 4. Update user
+
+- **Endpoint**: `/users/:id`
+- **Method**: PUT
+- **Description**: Updates user.
+- **Request Body**:
+  ```json
+  {
+    "name": "foo"
+  }
+- **Response**:
+    - 200: `{ message: User Successfully Updated }`
+    - 400: `Incorrect Parameters`
+    - 404: `User not found`
+    - 500: `Internal Server Error`
+
+## 5. Delete user
+
+- **Endpoint**: `/users/:id`
+- **Method**: DELETE
+- **Description**: Deletes user.
+- **Response**:
+    - 200: `{ message: User Successfully Updated }`
+    - 404: `User not found`
+    - 500: `Internal Server Error`
+
